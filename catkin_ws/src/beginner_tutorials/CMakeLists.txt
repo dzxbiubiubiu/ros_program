@@ -10,7 +10,8 @@ project(beginner_tutorials)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  std_msgs
+  message_generation
+  std_msgs  
 )
 
 ## System dependencies are found with CMake's conventions
@@ -47,18 +48,18 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
+add_message_files(
+    FILES
 #   Message1.msg
 #   Message2.msg
-# )
+    Num.msg)
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
+add_service_files(
+    FILES
 #   Service1.srv
 #   Service2.srv
-# )
+    AddTwoInts.srv )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -68,10 +69,9 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+generate_messages(
+   DEPENDENCIES
+   std_msgs)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -105,8 +105,9 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES beginner_tutorials
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+   CATKIN_DEPENDS message_runtime roscpp rospy std_msgs
 #  DEPENDS system_lib
+
 )
 
 ###########
@@ -160,6 +161,23 @@ add_dependencies(listener ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_
 add_executable(talker src/talker/talker.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES})
 add_dependencies(talker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(listener_msg src/listener/listener_msg.cpp)
+target_link_libraries(listener_msg ${catkin_LIBRARIES})
+add_dependencies(listener_msg ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(talker_msg src/talker/talker_msg.cpp)
+target_link_libraries(talker_msg ${catkin_LIBRARIES})
+add_dependencies(talker_msg ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(listener_srv src/listener/listener_srv.cpp)
+target_link_libraries(listener_srv ${catkin_LIBRARIES})
+add_dependencies(listener_srv ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(talker_srv src/talker/talker_srv.cpp)
+target_link_libraries(talker_srv ${catkin_LIBRARIES})
+add_dependencies(talker_srv ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 #############
 ## Install ##
 #############
